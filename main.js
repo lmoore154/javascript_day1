@@ -47,12 +47,14 @@ worst.push(new Movie("Armageddon", ["Michael Bay"], ["Action", "Adventure", "Sci
 
 worst.push(new Movie("Warcraft: The Beginning", ["Duncan Jones"], ["Action", "Adventure", "Fantasy"], "2016", ["Travis Fimmel", "Paula Patton", "Ben Foster", "Dominic Cooper", "Toby Kebbell", "Ben Schnetzer"], "7.0", "32"))
 
+worst.push(new Movie("Batman v Superman: Dawn of Justice", ["Zack Snyder"], ["Action", "Adventure", "Sci-Fi"], "2016", ["Ben Affleck", "Henry Cavill", "Amy Adams", "Jesse Eisenberg"], "7.9", "44"))
+
 
 function makeTable(title, array){
 
   tempHTML = "<div class=\"row header\"><h1>" + title + "</h1></div>"
 
-  tempHTML += "<div class=\"row\"><table class=\"table theader\"><tr><th>Title</th><th>Director List</th><th>Genre</th><th>Year</th><th>Actor List</th><th>Star Rating</th><th>Metascore</th></tr>"
+  tempHTML += "<div class=\"row\"><table class=\"table table-hover\"><tr><th>Title</th><th>Director List</th><th>Genre</th><th>Year</th><th>Actor List</th><th>Star Rating</th><th>Metascore</th></tr>"
 
   array.sort(function(a, b){
     return b.stars > a.stars
@@ -71,7 +73,32 @@ function makeTable(title, array){
   tempHTML += "</table></div>"
   element = document.getElementById("content")
   element.innerHTML += tempHTML
+
 }
 
 makeTable("Favorite Movies List", arr)
 makeTable("Best and Worst", arr.concat(worst))
+
+
+// Epic
+
+function displayMovie(movie){
+
+  fetch(movie)
+    .then(function(response){
+      return response.json()
+    }).then(function(film){
+      tmpHTML = "<div class=\"row\">"
+      tmpHTML += "<ul><li>" + film.Title + "<ul>"
+      tmpHTML += "<li>" + film.Year + "</li>"
+      tmpHTML += "<li>" + film.Plot + "</li></ul></li></ul>"
+      tmpHTML += "</div>"
+
+      element = document.getElementById("epic")
+      element.innerHTML += tmpHTML
+    })
+
+}
+
+displayMovie("http://www.omdbapi.com/?t=ratatouille&y=2007")
+displayMovie("http://www.omdbapi.com/?t=the+departed&plot=full")
